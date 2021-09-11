@@ -1,0 +1,22 @@
+{
+    "os": "macOS-10.16-x86_64-i386-64bit",
+    "python": "3.9.4",
+    "heartbeatAt": "2021-09-11T20:41:17.421026",
+    "startedAt": "2021-09-11T20:41:16.119650",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/Users/teejay/dev/MLOps/MLOps/train.py",
+    "codePath": "train.py",
+    "git": {
+        "remote": "git@github.com:toraaglobal/MLOps.git",
+        "commit": "e9e034a77ed0428467f2e6a9b0373126eba7b004"
+    },
+    "email": "tabdulazeez99@gmail.com",
+    "root": "/Users/teejay/dev/MLOps/MLOps",
+    "host": "Tajudeens-MacBook-Air.local",
+    "username": "teejay",
+    "executable": "/Users/teejay/dev/MLOps/env/bin/python"
+}
