@@ -4,3 +4,15 @@ dvc remote add -d model-store s3://toraaglobal/
 # cd dvcfiles
 
 # dvc add ../models/best-checkpoint.ckpt --file trained_model.dvc
+
+
+### push to ecr 
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 762527097925.dkr.ecr.us-east-1.amazonaws.com
+
+docker build -t mlops-basic .
+
+docker tag mlops-basic:latest 762527097925.dkr.ecr.us-east-1.amazonaws.com/mlops-basic:latest
+
+docker push 762527097925.dkr.ecr.us-east-1.amazonaws.com/mlops-basic:latest
+
+
