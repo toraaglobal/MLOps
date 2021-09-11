@@ -1,8 +1,8 @@
 FROM huggingface/transformers-pytorch-cpu:latest
 
 COPY app.py /app
-COPY ./models/ /app/models/
-COPY ./dvcfiles/ /app/dvcfiles/
+COPY ./models /app/models
+COPY ./dvcfiles /app/dvcfiles
 WORKDIR /app
 
 ARG AWS_ACCESS_KEY_ID
