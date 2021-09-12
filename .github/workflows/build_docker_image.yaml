@@ -31,5 +31,8 @@ jobs:
         with:
           access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          region: us-west-2
+          region: us-east-1
           image: mlops-basic:latest
+
+      - name: Update lambda with image
+        run: aws lambda update-function-code --function-name  MLOps-Basics --image-uri 762527097925.dkr.ecr.us-east-1.amazonaws.com/mlops-basic:latest

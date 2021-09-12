@@ -1,36 +1,31 @@
-FROM huggingface/transformers-pytorch-cpu:latest
-
-COPY ./ /app
-
-WORKDIR /app
+FROM amazon/aws-lambda-python
 
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
+ARG MODEL_DIR=./models
+RUN mkdir $MODEL_DIR
 
+ENV TRANSFORMERS_CACHE=$MODEL_DIR \
+    TRANSFORMERS_VERBOSITY=error
 
-# aws credentials configuration
 ENV AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
     AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 
-
-# install requirements
-RUN pip install "dvc[s3]"   # since s3 is the remote storage
-RUN pip install -r requirements.txt
-
-# initialise dvc
-RUN dvc init -f --no-scm
-
+RUN yum install git -y && yum -y install gcc-c++
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt --no-cache-dir
+COPY ./ ./
+ENV PYTHONPATH "${PYTHONPATH}:./"
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+RUN pip install "dvc[s3]"
 # configuring remote server in dvc
+RUN dvc init -f --no-scm
 RUN dvc remote add -d -f model-store s3://toraaglobal/
-
-RUN cat .dvc/config
 
 # pulling the trained model
 RUN dvc pull dvcfiles/trained_model.dvc
 
-ENV LC_ALL=C.UTF-8
-ENV LANG=C.UTF-8
-
-# running the application
-EXPOSE 8000
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+RUN python lambda_handler.py
+RUN chmod -R 0755 $MODEL_DIR
+CMD [ "lambda_handler.lambda_handler"]
