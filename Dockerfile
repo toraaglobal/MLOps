@@ -1,8 +1,7 @@
 FROM huggingface/transformers-pytorch-cpu:latest
 
-COPY app.py /app
-COPY ./models /app/models
-COPY ./dvcfiles /app/dvcfiles
+COPY ./ /app
+
 WORKDIR /app
 
 ARG AWS_ACCESS_KEY_ID
@@ -19,10 +18,10 @@ RUN pip install "dvc[s3]"   # since s3 is the remote storage
 RUN pip install -r requirements.txt
 
 # initialise dvc
-RUN dvc init --no-scm
+RUN dvc init -f --no-scm
 
 # configuring remote server in dvc
-RUN dvc remote add -d model-store s3://toraaglobal/
+RUN dvc remote add -d -f model-store s3://toraaglobal/
 
 RUN cat .dvc/config
 
