@@ -35,4 +35,4 @@ jobs:
           image: mlops-basic:latest
 
       - name: Update lambda with image
-        run: aws lambda update-function-code --function-name  MLOps-Basics --image-uri 762527097925.dkr.ecr.us-east-1.amazonaws.com/mlops-basic:latest
+        run: aws lambda update-function-code --function-name  MLOps-basic --image-uri 762527097925.dkr.ecr.us-east-1.amazonaws.com/mlops-basic:latest
